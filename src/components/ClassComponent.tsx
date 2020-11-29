@@ -1,6 +1,12 @@
+import { VNode } from 'vue'
 import { Vue } from 'vue-class-component'
 
-export class ClassComponent extends Vue {
+// https://github.com/vuejs/vue-class-component/issues/465
+class Props {
+  test!: string
+}
+
+export class ClassComponent extends Vue.with(Props) {
   count = 0;
 
   inc () {
@@ -8,6 +14,6 @@ export class ClassComponent extends Vue {
   }
 
   render () {
-    return <div onClick={this.inc}>{this.count}</div>
+    return <div onClick={this.inc}>{this.count}</div> as VNode
   }
 }
