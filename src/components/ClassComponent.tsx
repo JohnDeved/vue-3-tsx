@@ -13,6 +13,8 @@ export class ClassComponent extends Vue.with(Props) {
   }
 
   render () {
-    return <div onClick={this.inc}>{this.test}{this.count}</div>
+    return <div onClick={this.inc}>
+      {this.test} {this.count}
+    </div>
   }
 }
