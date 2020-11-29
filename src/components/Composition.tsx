@@ -1,6 +1,6 @@
 import { defineComponent, ref } from 'vue'
 
-export const Hello = defineComponent({
+export const Composition = defineComponent({
   setup() {
     const count = ref(0)
 
