@@ -1,7 +1,13 @@
-import { Vue } from "vue-class-component";
+import { Vue } from 'vue-class-component'
 
 export class ClassComponent extends Vue {
-    setup () {
-        return () => <div>test</div>
-    }
+  count = 0;
+
+  inc () {
+    this.count++
+  }
+
+  render () {
+    return <div onClick={this.inc}>{this.count}</div>
+  }
 }

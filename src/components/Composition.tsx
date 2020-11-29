@@ -1,7 +1,7 @@
 import { defineComponent, ref } from 'vue'
 
 export const Composition = defineComponent({
-  setup() {
+  setup () {
     const count = ref(0)
 
     const inc = () => {
