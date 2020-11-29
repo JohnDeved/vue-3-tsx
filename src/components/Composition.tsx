@@ -1,11 +1,7 @@
 import { defineComponent, ref } from 'vue'
 
 export const Composition = defineComponent({
-  props: {
-    test: String
-  },
-
-  setup (props) {
+  setup () {
     const count = ref(0)
 
     const inc = () => {
@@ -14,7 +10,7 @@ export const Composition = defineComponent({
 
     return () => (
       <div onClick={inc}>
-        {props.test} {count.value}
+        {count.value}
       </div>
     )
   }
