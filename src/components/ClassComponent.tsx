@@ -14,6 +14,6 @@ export class ClassComponent extends Vue.with(Props) {
   }
 
   render () {
-    return <div onClick={this.inc}>{this.count}</div> as VNode
+    return <div onClick={this.inc}>{this.test}{this.count}</div> as VNode
   }
 }
