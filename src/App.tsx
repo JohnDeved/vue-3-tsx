@@ -7,6 +7,6 @@ export const App = () => (
     Composition
     <Composition test="count:"/>
     ClassComponent
-    <ClassComponent test="count"/>
+    <ClassComponent test="count:"/>
   </div>
 )
