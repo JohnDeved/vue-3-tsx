@@ -1,4 +1,4 @@
-# vue3test
+# vue 3 tsx
 
 ## Project setup
 ```
