@@ -13,6 +13,7 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "allowUmdGlobalAccess": true,
     "types": [
       "webpack-env"
     ],

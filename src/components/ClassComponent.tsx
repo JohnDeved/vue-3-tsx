@@ -17,6 +17,6 @@ export class ClassComponent extends Vue.with(Props) {
       <div onClick={this.inc}>
         {this.test} {this.count}
       </div>
-    )
+    ) as any
   }
 }
