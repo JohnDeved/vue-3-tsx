@@ -12,11 +12,11 @@ export class ClassComponent extends Vue.with(Props) {
     this.count++
   }
 
-  render () {
+  render (): any {
     return (
       <div onClick={this.inc}>
         {this.test} {this.count}
       </div>
-    ) as any
+    )
   }
 }

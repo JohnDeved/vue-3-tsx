@@ -33,7 +33,11 @@ export const App = defineComponent({
         ReactComponent
         <VueReactComponent test={text.value}/>
 
-        <RsuiteButton><span>test</span></RsuiteButton>
+        <RsuiteButton appearance="primary">
+          <span>
+            {text.value}
+          </span>
+        </RsuiteButton>
       </div>
     )
   }

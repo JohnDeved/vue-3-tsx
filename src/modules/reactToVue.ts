@@ -3,51 +3,51 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import { VNode } from 'vue'
 
-function convertVNode (vNode: Vue.VNode): any {
+function convertVNode (vNode: Vue.VNode, key?: string | number): any {
+  if (typeof vNode === 'string') {
+    return React.createElement(React.Fragment, { key }, vNode)
+  }
+
   if (!Vue.isVNode(vNode)) return
 
-  const vNodes = vNode.children as Vue.VNode[] | string
+  const vNodeChildren = vNode.children as Vue.VNode[] | string
   const vTag = vNode.type.toString()
 
-  console.log({ vNodes, vTag })
+  console.log({ vNode, vNodes: vNodeChildren, vTag })
 
   const createElement = ({ tag, children }: {tag?: string; children?: string | VNode[]}) => {
     console.log({ tag, children })
-    return React.createElement(tag || React.Fragment, null, children)
+    return React.createElement(tag || React.Fragment, { key, ...vNode.props }, children)
   }
 
-  if (typeof vNodes === 'string') {
-    return createElement({ children: vNodes })
+  if (typeof vNodeChildren === 'string') {
+    return createElement({ children: vNodeChildren })
   }
 
-  if (Vue.isVNode(vNodes?.[0])) {
-    const children = vNodes as Vue.VNode[]
-    console.log(children, 'children')
-    return createElement({ tag: vTag, children: children.map(convertVNode) })
-  }
-
-  if (Vue.isVNode(vNodes)) {
-    const child = vNodes as Vue.VNode
-    console.log(child, 'children')
+  if (Vue.isVNode(vNodeChildren)) {
+    const child = vNodeChildren as Vue.VNode
     return createElement({ tag: vTag, children: convertVNode(child) })
+  }
+
+  if (vNodeChildren?.[0]) {
+    return createElement({ tag: vTag, children: vNodeChildren.map(convertVNode) })
   }
 }
 
 export default function reactToVue<T> (Component: React.ComponentType<any>) {
   return Vue.defineComponent<T>({
     setup (_, context) {
-      const children: React.FunctionComponentElement<{}>[] = []
+      let children: React.FunctionComponentElement<{}>[] = []
       const root = Vue.ref<HTMLDivElement>()
-      const vNodes = context.slots.default?.()
-
-      if (vNodes) {
-        for (const vNode of vNodes) {
-          const node = convertVNode(vNode)
-          if (node) children.push(node)
-        }
-      }
 
       const renderReact = () => {
+        const vNodes = context.slots.default?.()
+
+        if (vNodes) {
+          children = vNodes.map(convertVNode)
+        }
+
+        console.log(children)
         if (root.value) {
           ReactDOM.render(React.createElement(Component, { ...context.attrs }, children), root.value)
         }
