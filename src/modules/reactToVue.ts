@@ -47,9 +47,9 @@ export default function reactToVue<T> (Component: React.ComponentType<any>) {
           children = vNodes.map(convertVNode)
         }
 
-        console.log(children)
         if (root.value) {
           ReactDOM.render(React.createElement(Component, { ...context.attrs }, children), root.value)
+          root.value.replaceWith(root.value.firstChild as Node)
         }
       }
 
