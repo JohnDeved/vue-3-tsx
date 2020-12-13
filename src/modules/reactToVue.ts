@@ -1,7 +1,6 @@
 import * as Vue from 'vue'
-import * as React from 'react'
+import React, { ComponentProps as GetReactProps } from 'react'
 import ReactDOM from 'react-dom'
-import { VNode } from 'vue'
 
 function convertVNode (vNode: Vue.VNode, key?: string | number): any {
   if (typeof vNode === 'string') {
@@ -13,10 +12,7 @@ function convertVNode (vNode: Vue.VNode, key?: string | number): any {
   const vNodeChildren = vNode.children as Vue.VNode[] | string
   const vTag = vNode.type.toString()
 
-  console.log({ vNode, vNodes: vNodeChildren, vTag })
-
-  const createElement = ({ tag, children }: {tag?: string; children?: string | VNode[]}) => {
-    console.log({ tag, children })
+  const createElement = ({ tag, children }: {tag?: string; children?: string | Vue.VNode[]}) => {
     return React.createElement(tag || React.Fragment, { key, ...vNode.props }, children)
   }
 
@@ -34,8 +30,11 @@ function convertVNode (vNode: Vue.VNode, key?: string | number): any {
   }
 }
 
+export { GetReactProps }
+
 export default function reactToVue<T> (Component: React.ComponentType<any>) {
   return Vue.defineComponent<T>({
+    name: 'ReactToVue',
     setup (_, context) {
       let children: React.FunctionComponentElement<{}>[] = []
       const root = Vue.ref<HTMLDivElement>()
@@ -48,8 +47,8 @@ export default function reactToVue<T> (Component: React.ComponentType<any>) {
         }
 
         if (root.value) {
+          console.log(children)
           ReactDOM.render(React.createElement(Component, { ...context.attrs }, children), root.value)
-          root.value.replaceWith(root.value.firstChild as Node)
         }
       }
 

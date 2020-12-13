@@ -2,15 +2,16 @@ import { defineComponent, ref } from 'vue'
 import { ClassComponent } from './components/ClassComponent'
 import { Composition } from './components/Composition'
 import { ReactComponent } from './components/ReactComponent'
-import { ComponentProps } from 'react'
-import reactToVue from './modules/reactToVue'
-
 import { Button, ButtonProps } from 'rsuite'
 
-type ReactComponentProps = ComponentProps<typeof ReactComponent>
-const VueReactComponent = reactToVue<ReactComponentProps>(ReactComponent)
+import reactToVue, { GetReactProps } from './modules/reactToVue'
 
-const RsuiteButton = reactToVue<ButtonProps>(Button)
+type Props = GetReactProps<typeof ReactComponent>
+const VueComponent = reactToVue<Props>(ReactComponent)
+
+type buttonProps = Pick<ButtonProps, 'appearance'>
+
+const RButton = reactToVue<buttonProps>(Button)
 
 export const App = defineComponent({
   setup () {
@@ -25,19 +26,24 @@ export const App = defineComponent({
     return () => (
       <div>
         <input onInput={handelInput} />
+
         <h1>Vue 3</h1>
-        Composition
-        <Composition test={text.value}/>
+
         ClassComponent
         <ClassComponent test={text.value}/>
-        ReactComponent
-        <VueReactComponent test={text.value}/>
 
-        <RsuiteButton appearance="primary">
-          <span>
+        Vue Composition Component
+        <Composition test={text.value}/>
+
+        React Hooks Component
+        <VueComponent test={text.value}/>
+
+        <RButton appearance='primary' >
+          <span data-test='test'>
             {text.value}
           </span>
-        </RsuiteButton>
+        </RButton>
+
       </div>
     )
   }
